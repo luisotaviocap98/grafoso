@@ -1,5 +1,4 @@
-class No:
-
+class Vtx:
     def __init__(self, valor):
         self.valor = valor 
         self.adj = list()
@@ -11,68 +10,97 @@ class No:
 
 
 class Aresta:
-    def __init__(self,no,no2):
-        self.origem = no
-        self.destino = no2
+    def __init__(self,vtx,vtx2):
+        self.origem = vtx
+        self.destino = vtx2
 
     
 class Grafo:
-
     def __init__(self):
-        self.newNo = list()
+        self.newvtx = list()
         self.arrst = list()
 
     def printGrafo(self):
-        for i in self.newNo:
+        for i in self.newvtx:
             print(i.valor)
 
-    def addNo(self,no):
-        self.newNo.append(no)
+    def addvtx(self,vtx):
+        self.newvtx.append(vtx)
 
-    def createAresta(self,no1,no2):
-        a = Aresta(no1,no2)
-        b = Aresta(no2,no1)
-        self.arrst.append(a)
-        self.arrst.append(b)
-        no1.adj.append(no2)
-        no2.adj.append(no1)
+    def createAresta(self,vtx1,vtx2):
+        self.arrst.append(Aresta(vtx1,vtx2))
+        self.arrst.append(Aresta(vtx2,vtx1))
+        vtx1.adj.append(vtx2)
+        vtx2.adj.append(vtx1)
 
 
-    def printAresta(self):
+    def printAdj(self):
         print('lista de adjacencia')
-        for i in self.newNo:
+        for i in self.newvtx:
             print("Saindo de [%s]->" %i.valor , end="")
             for j in i.adj:
-                print(" [%s]" % j.valor, end="")
+                print(" [%s]" %j.valor, end="")
             print()
+            
+    def printAresta(self):
+        print('arestas')
+        for i in self.arrst:
+            print('de',i.origem.valor,'para',i.destino.valor)
+    
+
+    def buscalarg(self,start):
+        s = start
+        cor = list()
+        pai = list()
+        queue = list()
+        distancia = list()
         
-    def feixotrans():
-        print()
-
-
+        for i in self.newvtx:
+            if i != s:
+                cor[index(i)] = "branco"
+                distancia[index(i)] = "inf"
+                pai[index(i)] = None
+            else:
+                t = index(i)
+        
+        cor[t] = "cinza"
+        distancia[t]=0
+        pai[t]=None
+        queue.append(s)    
+        
+        while len(queue):
+            j=queue.pop()
+            for i in self.newvtx.adj:
+                if cor[i] == "branco":
+                    cor[i]="cinza"
+                    distancia[i]=distancia[j] + 1
+                    pai[i]= j.valor
+                    queue.append(queue, i)
+                cor[j]="preto"
+                      
     
 
 if __name__ == "__main__":
     x = Grafo()
-    a = No(5)
-    b = No(3)
-    c = No(8)
-    d = No(90)
+    a = Vtx(5)
+    b = Vtx(3)
+    c = Vtx(8)
+    d = Vtx(90)
 
 
-    x.addNo(a)
-    x.addNo(b)
-    x.addNo(c)
-    x.addNo(d)
+    x.addvtx(a)
+    x.addvtx(b)
+    x.addvtx(c)
+    x.addvtx(d)
     x.createAresta(a,b)
     x.createAresta(a,c)
     x.createAresta(b,c)
     x.createAresta(b,d)
     x.createAresta(d,c)
-    #x.createAresta(a,d)
     
 
     x.printGrafo()
+    x.printAdj()
     x.printAresta()
 
 
