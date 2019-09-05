@@ -1,7 +1,14 @@
+global cont 
+cont =0
+
+
 class Vtx:
     def __init__(self, valor):
         self.valor = valor 
         self.adj = list()
+        global cont
+        self.numero = cont
+        cont = cont + 1
 
     def listadj(self):
         for i in self.adj:
@@ -50,35 +57,37 @@ class Grafo:
 
     def buscalarg(self,start):
         s = start
-        cor = list()
-        pai = list()
         queue = list()
-        distancia = list()
+        pai = [None] * len(self.newvtx)
+        cor = [None] * len(self.newvtx)
+        distancia = [None] * len(self.newvtx)
         
         for i in self.newvtx:
             if i != s:
-                cor[index(i)] = "branco"
-                distancia[index(i)] = "inf"
-                pai[index(i)] = None
-            else:
-                t = index(i)
+                cor[i.numero] = "branco"
+                distancia[i.numero] = None
+                pai[i.numero] = None
         
-        cor[t] = "cinza"
-        distancia[t]=0
-        pai[t]=None
+        cor[s.numero] = "cinza"
+        distancia[s.numero]=0
+        pai[s.numero]=None
         queue.append(s)    
         
         while len(queue):
             j=queue.pop()
-            for i in self.newvtx.adj:
-                if cor[i] == "branco":
-                    cor[i]="cinza"
-                    distancia[i]=distancia[j] + 1
-                    pai[i]= j.valor
-                    queue.append(queue, i)
-                cor[j]="preto"
-                      
-    
+            for i in j.adj:
+                if cor[i.numero] == "branco":              
+                    cor[i.numero]="cinza"
+                    distancia[i.numero]=distancia[j.numero] + 1
+                    pai[i.numero]= j.valor
+                    queue.append(i)
+                cor[j.numero]="preto"
+                  
+        print("as cores",cor)
+        print("as distancias", distancia)
+        print('os pais',pai)
+        print('fila atual',queue)
+
 
 if __name__ == "__main__":
     x = Grafo()
@@ -86,19 +95,21 @@ if __name__ == "__main__":
     b = Vtx(3)
     c = Vtx(8)
     d = Vtx(90)
-
+    e = Vtx(800)
 
     x.addvtx(a)
     x.addvtx(b)
     x.addvtx(c)
     x.addvtx(d)
+    x.addvtx(e)
     x.createAresta(a,b)
     x.createAresta(a,c)
     x.createAresta(b,c)
     x.createAresta(b,d)
     x.createAresta(d,c)
+    x.createAresta(d,e)
     
-
+    x.buscalarg(a)
     x.printGrafo()
     x.printAdj()
     x.printAresta()
