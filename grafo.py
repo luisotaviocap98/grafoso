@@ -26,6 +26,7 @@ class Grafo:
     def __init__(self):
         self.newvtx = list()
         self.arrst = list()
+        self.tempo = 0
 
     def printGrafo(self):
         for i in self.newvtx:
@@ -88,6 +89,47 @@ class Grafo:
         print('os pais',pai)
         print('fila atual',queue)
 
+    def Dfs_Visit(self, start , cor, predecessor,f,d):
+        
+        self.tempo = self.tempo + 1
+        d[start.numero] = self.tempo
+        cor[start.numero] = "cinza"
+
+        print("[",start.valor,' ' , end="")
+
+        for i in start.adj:
+            if cor[i.numero] == "branco":
+                predecessor[i.numero] = start.valor
+                self.Dfs_Visit(i,cor,predecessor,f,d)
+        
+        print(start.valor,"] " , end="")
+
+        cor[start.numero] = "preto"
+        self.tempo = self.tempo + 1
+        f[start.numero] = self.tempo
+
+    def Dfs(self):
+        f = [None] * len(self.newvtx)
+        d = [None] * len(self.newvtx)
+        cor = [None] * len(self.newvtx)
+        predecessor = [None] * len(self.newvtx)
+
+        for i in self.newvtx:
+            cor[i.numero] = "branco"
+            predecessor[i.numero] = None
+
+
+        for i in self.newvtx:
+            if cor[i.numero] == "branco":
+                self.Dfs_Visit(i,cor,predecessor,f,d)
+        
+        print()
+        print("chegando",d)
+        print("saindo",f)
+        print("as cores",cor)
+        print("papai",predecessor)
+
+
 
 if __name__ == "__main__":
     x = Grafo()
@@ -108,6 +150,8 @@ if __name__ == "__main__":
     x.createAresta(b,d)
     x.createAresta(d,c)
     x.createAresta(d,e)
+
+    x.Dfs()
     
     x.buscalarg(a)
     x.printGrafo()
