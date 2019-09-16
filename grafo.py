@@ -6,6 +6,8 @@ class Vtx:
     def __init__(self, valor):
         self.valor = valor 
         self.adj = list()
+        self.incd = list()
+        self.grau_entry = 0
         global cont
         self.numero = cont
         cont = cont + 1
@@ -39,14 +41,24 @@ class Grafo:
         self.arrst.append(Aresta(vtx1,vtx2))
         self.arrst.append(Aresta(vtx2,vtx1))
         vtx1.adj.append(vtx2)
-        vtx2.adj.append(vtx1)
-
+        #vtx2.adj.append(vtx1)
+        #vtx1.incd.append(vtx2)
+        vtx2.incd.append(vtx1)
+        vtx2.grau_entry += 1
 
     def printAdj(self):
         print('lista de adjacencia')
         for i in self.newvtx:
             print("Saindo de [%s]->" %i.valor , end="")
             for j in i.adj:
+                print(" [%s]" %j.valor, end="")
+            print()
+    
+    def printIncd(self):
+        print('lista de incidencia')
+        for i in self.newvtx:
+            print("chegando em [%s]->" %i.valor , end="")
+            for j in i.incd:
                 print(" [%s]" %j.valor, end="")
             print()
             
@@ -88,7 +100,7 @@ class Grafo:
         print("as distancias", distancia)
         print('os pais',pai)
         print('fila atual',queue)
-
+        
     def Dfs_Visit(self, start , cor, predecessor,f,d):
         
         self.tempo = self.tempo + 1
@@ -129,7 +141,26 @@ class Grafo:
         print("as cores",cor)
         print("papai",predecessor)
 
+    def kahn(self):
+        visitados = 0
+        Qentrada = list()
+        ordemSaida = list()
+        for i in self.newvtx:
+            if i.grau_entry == 0:
+                Qentrada.append(i)
+        while len(Qentrada):
+            vert = Qentrada.pop(0)
+            ordemSaida.append(vert.valor)
+            visitados += 1
+            for j in vert.adj:
+                j.grau_entry -= 1
+                if j.grau_entry == 0:
+                    Qentrada.append(j)
+        print('ordem',ordemSaida)
 
+    def printgrau(self):
+        for i in self.newvtx:
+            print(i.grau_entry)
 
 if __name__ == "__main__":
     x = Grafo()
@@ -151,12 +182,17 @@ if __name__ == "__main__":
     x.createAresta(d,c)
     x.createAresta(d,e)
 
-    x.Dfs()
-    
-    x.buscalarg(a)
     x.printGrafo()
+    print()
+    x.buscalarg(a)
+    print()
+    x.Dfs()
+    print()
     x.printAdj()
-    x.printAresta()
-
-
+    print()
+    x.printIncd()
+    print()
+    #x.printAresta()
+    x.kahn()
+    
     
