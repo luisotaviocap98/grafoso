@@ -156,6 +156,8 @@ class Grafo:
                 j.grau_entry -= 1
                 if j.grau_entry == 0:
                     Qentrada.append(j)
+        if visitados != len(self.newvtx):
+            print('nao eh possivel')
         print('ordem',ordemSaida)
 
     def printgrau(self):
@@ -176,6 +178,7 @@ if __name__ == "__main__":
     x.addvtx(d)
     x.addvtx(e)
     x.createAresta(a,b)
+    #x.createAresta(b,a)
     x.createAresta(a,c)
     x.createAresta(b,c)
     x.createAresta(b,d)
