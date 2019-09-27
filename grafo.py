@@ -46,7 +46,6 @@ class Grafo:
         #vtx1.incd.append(vtx2)
 
     def printAdj(self):
-        print('lista de adjacencia')
         for i in self.newvtx:
             print("Saindo de [%s]->" %i.valor , end="")
             for j in i.adj:
@@ -54,7 +53,6 @@ class Grafo:
             print()
     
     def printIncd(self):
-        print('lista de incidencia')
         for i in self.newvtx:
             print("chegando em [%s]->" %i.valor , end="")
             for j in i.incd:
@@ -62,7 +60,6 @@ class Grafo:
             print()
             
     def printAresta(self):
-        print('arestas')
         for i in self.arrst:
             print('de',i.origem.valor,'para',i.destino.valor)
     
@@ -192,7 +189,6 @@ class Grafo:
         print('componentes',qntcomp)
 
     def kahn(self):
-        print('kahn')
         visitados = 0
         Qentrada = list()
         ordemSaida = list()
@@ -224,7 +220,7 @@ class Grafo:
             for j in i:
                 print(j,end=" ")
             print()
-        print('transposta')
+        print('\ntransposta')
         for i in range(len(matr)) :
             for j in range(len(matr)):
                 print(matr[j][i],end=" ")
@@ -255,21 +251,21 @@ if __name__ == "__main__":
     x.createAresta(d,c)
     x.createAresta(d,e)
     
-    print('mostrando grafo')
+    print('\n',"{0:#^50}".format(' mostrando grafo '))
     x.printGrafo()
-    print('\nBusca Largura')
+    print('\n',"{0:#^50}".format(' Busca Largura '))
     x.buscalarg(a)
-    print('\nDFS')
+    print('\n',"{0:#^50}".format(' DFS '))
     x.Dfs()
-    print()
+    print('\n',"{0:#^50}".format(' lista adjacencia '))
     x.printAdj()
-    print()
+    print('\n',"{0:#^50}".format(' lista incidencia '))
     x.printIncd()
-    print()
+    print('\n',"{0:#^50}".format(' arestas '))
     x.printAresta()
-    print()
+    print('\n',"{0:#^50}".format(' kahn '))
     x.kahn()
-    print()
+    print('\n',"{0:#^50}".format(' matriz adjacencia '))
     x.criaMatriz()
-    print('\nKosajaru')
+    print('\n',"{0:#^50}".format(' Kosajaru '))
     x.kosajaru()
